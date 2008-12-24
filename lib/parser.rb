@@ -14,24 +14,17 @@ class Parser
     @event = e
     if e.message =~ /^`#{name}(?: (.*))?/
       c = Parser::Command.new($1)
-      if admin_only && is_admin?
-        true
-      elsif admin_only && !is_admin?
-        false
-      else
-        true
+      if admin_only && !is_admin?
+        return false
       end
       yield c, params
     else
-      false
+      return false
     end
   end
   
   def is_admin?
-    if @event.sender.nick == "chuck"
-      true
-    else
-      false
-    end
+    config = Configuration.new
+    return config.is_admin?( @event.sender.nick, @event.sender.host )
   end
 end

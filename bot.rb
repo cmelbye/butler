@@ -1,6 +1,8 @@
 $LOAD_PATH << './lib'
 puts "Loading IRC..."
 require 'irc'
+puts "Loading Configuration Class..."
+require 'configuration'
 puts "Loading the IRC Parser..."
 require 'parser'
 puts "Loading RubyGems..."
@@ -168,7 +170,7 @@ irc.on_privmsg do |e|
     end
   end
   
-  if e.message =~ /^complete (\d+)$/
+  if e.message =~ /^complete task (\d+)$/
     task = Task.find( $1 )
     if task.nil?
       irc.msg(e.sender.nick, 'That task does not exist, sorry!')
