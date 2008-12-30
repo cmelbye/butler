@@ -121,7 +121,7 @@ irc.on_privmsg do |e|
   end
   
   if e.message =~ /^info (\d+)$/
-    task = Task.find( $1 )
+    task = Task.find_by_id( $1 )
     if task.nil?
       irc.msg(e.sender.nick, 'That task does not exist, sorry!')
     else
@@ -171,7 +171,7 @@ irc.on_privmsg do |e|
   end
   
   if e.message =~ /^complete task (\d+)$/
-    task = Task.find( $1 )
+    task = Task.find_by_id( $1 )
     if task.nil?
       irc.msg(e.sender.nick, 'That task does not exist, sorry!')
     else
@@ -207,6 +207,25 @@ irc.on_privmsg do |e|
       else
         irc.msg(e.sender.nick, 'That task does not belong to you!')
       end
+    end
+  end
+  
+  if e.message =~ /^reassign task (\d+) to (.*)$/
+    task = Task.find( $1 )
+  end
+  
+  ## karma
+  if e.message =~ /^([^\+\+]+)\+\+$/
+    person = Person.find_by_name($1)n
+    
+  end
+  
+  if e.message =~ /^([^--]+)--$/
+    person = Person.find_by_name($1)
+    if person.nil?
+      
+    else
+      
     end
   end
 end
